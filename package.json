@@ -4,7 +4,8 @@
   "description": "a collaborative drawing app",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js",
+    "server": "nodemon app.js"
   },
   "author": "aliao3511",
   "license": "ISC",
