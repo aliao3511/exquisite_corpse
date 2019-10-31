@@ -6,9 +6,16 @@ const passport = require('passport');
 
 const keys = require('../../config/keys');
 const User = require('../../models/User');
+const { validateRegisterInput, validateLoginInput } = require('../../validation/users');
 
 // POST /register - register user
 router.post('/register', async (req, res) => {
+
+    const { errors, isValid } = validateRegisterInput(req.body);
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+
     const user = await User.findOne({ email: req.body.email });
     if (user) {
         return res.status(400).json({ email: 'email already registered' });
@@ -24,7 +31,6 @@ router.post('/register', async (req, res) => {
                 if (err) { throw err };
                 newUser.password = hash;
                 const user = await newUser.save().catch(err => console.log(err));
-                debugger
 
                 const payload = { id: user.id, name: user.username };
                 jwt.sign(
@@ -45,6 +51,12 @@ router.post('/register', async (req, res) => {
 
 // POST /login - log in user
 router.post('/login', async (req, res) => {
+
+    const { errors, isValid } = validateLoginInput(req.body);
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });    
