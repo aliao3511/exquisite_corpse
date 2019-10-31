@@ -2,18 +2,14 @@ const validator = require('validator');
 
 const { validText } = require('./util');
 
-const validateLoginInput = ({ email, password }) => {
+const validateLoginInput = ({ identifier, password }) => {
     let errors = {};
 
-    email = validText(email) ? email : '';
+    identifier = validText(identifier) ? identifier : '';
     password = validText(password) ? password: '';
 
-    if (!validator.isEmail(email)) {
-        errors.email = 'invalid email';
-    }
-
-    if (validator.isEmpty(email)) {
-        errors.email = 'email required';
+    if (validator.isEmpty(identifier)) {
+        errors.identifier = 'username or email required';
     }
 
     if (validator.isEmpty(password)) {
@@ -27,11 +23,20 @@ const validateLoginInput = ({ email, password }) => {
 };
 
 const validateRegisterInput = data => {
-    const { errors, isValid } = validateLoginInput(data);
-    
+    let errors = {};
+    debugger
+    data.email = validText(data.email) ? data.email : '';
     data.username = validText(data.username) ? data.username : '';
     data.password = validText(data.password) ? data.password: '';
     data.password2 = validText(data.password2) ? data.password2 : '';
+
+    if (!validator.isEmail(data.email)) {
+        errors.email = 'invalid email';
+    }
+
+    if (validator.isEmpty(data.email)) {
+        errors.email = 'email required';
+    }
 
     if (!validator.isLength(data.username, { min: 2, max: 25 })) {
         errors.username = 'username must be between 2 and 25 characters long';
@@ -63,4 +68,4 @@ const validateRegisterInput = data => {
 module.exports = {
     validateLoginInput,
     validateRegisterInput,
-}
+};

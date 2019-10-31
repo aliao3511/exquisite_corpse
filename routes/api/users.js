@@ -15,7 +15,7 @@ router.post('/register', async (req, res) => {
     if (!isValid) {
         return res.status(400).json(errors);
     }
-
+    debugger
     const user = await User.findOne({ email: req.body.email });
     if (user) {
         return res.status(400).json({ email: 'email already registered' });
@@ -28,7 +28,7 @@ router.post('/register', async (req, res) => {
 
         bcrypt.genSalt(10, (err, salt) => {
             bcrypt.hash(newUser.password, salt, async (err, hash) => {
-                if (err) { throw err };
+                // if (err) { throw err };
                 newUser.password = hash;
                 const user = await newUser.save().catch(err => console.log(err));
 
@@ -51,15 +51,20 @@ router.post('/register', async (req, res) => {
 
 // POST /login - log in user
 router.post('/login', async (req, res) => {
-
     const { errors, isValid } = validateLoginInput(req.body);
+    debugger
     if (!isValid) {
         return res.status(400).json(errors);
     }
 
-    const { email, password } = req.body;
+    // const { email, password } = req.body;
+    const { identifier, password } = req.body;
 
-    const user = await User.findOne({ email });    
+    // const user = await User.findOne({ email });    
+    const user = await User.findOne({ $or: [
+        { email: identifier },
+        { username: identifier }
+    ] });    
     if (!user) {
         return res.status(404).json({ email: 'user does not exist'});
     }
