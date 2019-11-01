@@ -24,7 +24,6 @@ const validateLoginInput = ({ identifier, password }) => {
 
 const validateRegisterInput = data => {
     let errors = {};
-    debugger
     data.email = validText(data.email) ? data.email : '';
     data.username = validText(data.username) ? data.username : '';
     data.password = validText(data.password) ? data.password: '';

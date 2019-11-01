@@ -15,7 +15,6 @@ const _nullState = {
 
 export default function reducer(state = _nullState, action = {}) {
     Object.freeze(state);
-    debugger
     switch(action.type) {
         case LOGOUT:
             return _nullState;

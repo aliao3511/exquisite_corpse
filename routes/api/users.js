@@ -15,7 +15,6 @@ router.post('/register', async (req, res) => {
     if (!isValid) {
         return res.status(400).json(errors);
     }
-    debugger
     const user = await User.findOne({ email: req.body.email });
     if (user) {
         return res.status(400).json({ email: 'email already registered' });
@@ -52,7 +51,6 @@ router.post('/register', async (req, res) => {
 // POST /login - log in user
 router.post('/login', async (req, res) => {
     const { errors, isValid } = validateLoginInput(req.body);
-    debugger
     if (!isValid) {
         return res.status(400).json(errors);
     }
