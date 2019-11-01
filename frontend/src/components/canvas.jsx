@@ -1,5 +1,4 @@
 import React from 'react';
-// import Immutable from 'immutable';
 
 class Canvas extends React.Component {
 
@@ -9,6 +8,8 @@ class Canvas extends React.Component {
         this.state = {
             drawing: false,
             lines: [],
+            currentLine: [],
+            img: null
         };
 
         this.canvas = React.createRef('canvas');
@@ -18,23 +19,32 @@ class Canvas extends React.Component {
         this.handleMouseUp = this.handleMouseUp.bind(this);
         this.relativeCoordinates = this.relativeCoordinates.bind(this);
         this.drawLine = this.drawLine.bind(this);
+        this.save = this.save.bind(this);
     }
+
+    componentDidMount() {
+        const canvas = this.canvas.current;
+        canvas.width = 500;
+        canvas.height = 500;
+    }
+
 
     handleMouseDown(e) {
         if (e.button !== 0) return;
         const point = this.relativeCoordinates(e);
         this.setState({ 
             drawing: true,
-            lines: this.state.lines.concat(point)
+            currentLine: this.state.currentLine.concat(point)
         });
     }
 
     handleMouseMove(e) {
         if (!this.state.drawing) return;
-        const start = this.state.lines[this.state.lines.length - 1];
+        // const line = this.state.lines[this.state.lines.length - 1];
+        const start = this.state.currentLine[this.state.currentLine.length - 1];
         const end = this.relativeCoordinates(e);
         this.setState({
-            lines: this.state.lines.concat(end)
+            currentLine: this.state.currentLine.concat(end)
         }, () => {
             const coords = {
                 x_start: start.x,
@@ -47,29 +57,24 @@ class Canvas extends React.Component {
     }
 
     handleMouseUp(e) {
-        const point = this.relativeCoordinates(e);
         this.setState({
             drawing: false,
-            lines: this.state.lines.concat(point)
+            lines: this.state.lines.concat(this.state.currentLine),
+            currentLine: []
         });
     }
 
     relativeCoordinates(e) {
-        debugger
-        const rect = this.canvas.current.getBoundingClientRect();
-        
-        // return {
-        //     x: e.clientX - rect.left,
-        //     y: e.clientY - rect.top,
-        // };
+        const canvas = this.canvas.current;
+        const rect = canvas.getBoundingClientRect();
+    
         return {
-            x: (e.clientX - rect.left) / (rect.right - rect.left) * this.canvas.current.width,
-            y: (e.clientY - rect.top) / (rect.bottom - rect.top) * this.canvas.current.height
+            x: (e.clientX - rect.left) / (rect.right - rect.left) * canvas.width,
+            y: (e.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height
         };
     }
 
     drawLine({ x_start, y_start, x_end, y_end }) {
-        debugger
         const context = this.canvas.current.getContext('2d');
         context.beginPath();
         context.moveTo(x_start, y_start);
@@ -78,6 +83,12 @@ class Canvas extends React.Component {
         context.lineWidth = 0.5;
         context.stroke();
         context.closePath();
+    }
+
+    save() {
+        debugger
+        const img = this.canvas.current.toDataURL();
+        this.setState({ img });
     }
 
     render() {
@@ -93,6 +104,8 @@ class Canvas extends React.Component {
                     onMouseUp={this.handleMouseUp}
                     style={style}
                 />
+                <button onClick={this.save}>save me</button>
+                {this.state.img && <img src={this.state.img} alt=''></img>}
             </div>
         )
     }
