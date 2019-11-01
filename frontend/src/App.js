@@ -7,10 +7,12 @@ import { AuthRoute, ProtectedRoute } from './components/auth/route_util';
 import LoginForm from './components/auth/login_form';
 import SignupForm from './components/auth/signup_form';
 import NavBar from './components/navbar';
+import Home from './components/home';
 
 const App = () => (
   <div>
     <NavBar />
+    <Home />
     <Switch>
       {/* <AuthRoute exact path='/' component={<div>hi</div>} /> */}
       <AuthRoute exact path='/login' component={LoginForm} />

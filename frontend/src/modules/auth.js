@@ -39,7 +39,7 @@ export const setAuthToken = token => {
     }
 };
 
-export const signin = token => {
+export const decodeAuthToken = token => {
     localStorage.setItem('jwtToken', token);
     setAuthToken(token);
     return jwt_decode(token);

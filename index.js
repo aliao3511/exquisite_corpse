@@ -32,4 +32,13 @@ app.use('/api/users', users);
 //
 
 const port = process.env.PORT || 5000;
-app.listen(port, () => console.log(`server running on port ${port}`));
+const server = app.listen(port, () => console.log(`server running on port ${port}`));
+
+// SOCKET
+const io = require('socket.io').listen(server);
+io.on('connection', socket => {
+    console.log('socket connected!');
+
+    socket.on('disconnected', () => console.log('socket disconnected!'));
+    socket.on('test', msg => console.log(msg));
+});
