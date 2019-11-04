@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const ImageSchema = new Schema({
-    data: Buffer, 
+    url: String, 
     contentType: String
 }, { timestamps: true });
 

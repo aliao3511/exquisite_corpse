@@ -3,24 +3,44 @@ const router = express.Router();
 const fs = require('fs');
 const multer = require('multer');
 const upload = multer();
+const AWS = require('aws-sdk');
 
 const Image = require('../../models/Image');
+const { ID, SECRET, BUCKET_NAME } = require('../../config/aws');
+
+const s3 = new AWS.S3({
+    accessKeyId: ID,
+    secretAccessKey: SECRET
+});
 
 // POST /save - save image
 router.post('/save', upload.single('image'), async (req, res) => {
     debugger
     const data = req.file;
     const newImage = new Image();
+    newImage.contentType = req.file.mimetype;
     debugger
-    newImage.data = data.buffer;
+    // newImage.data = data.buffer;
     // newImage.data = data;
-    newImage.contentType = 'image/png';
-    newImage.save((err, image) => {
-        res.json({
-            success: true,
-            id: image.id,
-        });
+    const params = {
+        Bucket: BUCKET_NAME,
+        Key: 'test.png',
+        Body: req.file.buffer
+    };
+
+    s3.upload(params, (err, data) => {
+        if (err) throw err;
+        debugger
+        console.log('uploaded!');
     });
+
+    debugger
+    // newImage.save((err, image) => {
+    //     res.json({
+    //         success: true,
+    //         id: image.id,
+    //     });
+    // });
 });
 
 // GET /:id - get image
