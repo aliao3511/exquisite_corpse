@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { saveImage, getImage } from '../modules/canvas';
+import { saveImage, getImage } from '../../modules/canvas';
 
 const msp = state => ({
     image: state.canvas.image,
@@ -14,8 +14,7 @@ class Canvas extends React.Component {
 
         this.state = {
             drawing: false,
-            pencil: true,
-            eraser: false,
+            erasing: false,
             lines: [],
             currentLine: [],
             img: null
@@ -29,7 +28,8 @@ class Canvas extends React.Component {
         this.relativeCoordinates = this.relativeCoordinates.bind(this);
         this.drawLine = this.drawLine.bind(this);
         this.save = this.save.bind(this);
-        this.toggleMode = this.toggleMode.bind(this);
+        this.startErasing = this.startErasing.bind(this);
+        this.stopErasing = this.stopErasing.bind(this);
     }
 
     componentDidMount() {
@@ -44,7 +44,7 @@ class Canvas extends React.Component {
         this.setState({ 
             drawing: true,
             currentLine: this.state.currentLine.concat(point)
-        });
+        }, () => console.log(this.state));
     }
 
     handleMouseMove(e) {
@@ -61,6 +61,7 @@ class Canvas extends React.Component {
                 y_end: end.y
             };
             this.drawLine(coords);
+            console.log(this.state);
         });
     }
 
@@ -69,7 +70,7 @@ class Canvas extends React.Component {
             drawing: false,
             lines: this.state.lines.concat(this.state.currentLine),
             currentLine: []
-        });
+        }, () => console.log(this.state));
     }
 
     relativeCoordinates(e) {
@@ -92,6 +93,7 @@ class Canvas extends React.Component {
             context.strokeStyle='rgba(255,255,255,1)';
             context.lineWidth = 5;
         } else {
+            context.globalCompositeOperation = 'source-over';
             context.strokeStyle = '#000000';
             context.lineWidth = 0.5;
         }
@@ -100,29 +102,33 @@ class Canvas extends React.Component {
     }
 
     save() {
-        const image = this.canvas.current.toBlob(imageBlob => {
+        this.canvas.current.toBlob(imageBlob => {
             const imageData = new FormData();
             imageData.append('image', imageBlob);
-            const savedImage = this.props.saveImage(imageData);
+            this.props.saveImage(imageData);
         });
     }
 
-    toggleMode(field) {
-        return e => {
-            e.preventDefault();
-            this.setState({ [field]: !this.state.field });
-        }
+    startErasing(e) {
+        e.preventDefault();
+        this.setState({ erasing: true }, () => console.log(this.state));
+    }
+
+    stopErasing(e) {
+        e.preventDefault();
+        this.setState({ erasing: false }, () => console.log(this.state));
     }
 
     render() {
         const style = {
+            boxSizing: 'border-box',
             border: 'solid',
         };
 
         return (
             <div>
-                <button onClick={this.toggleMode('erasing')}>erase</button>
-                <button onClick={this.toggleMode('pencil')}>draw</button>
+                <button onClick={this.startErasing} disabled={this.state.erasing}>erase</button>
+                <button onClick={this.stopErasing} disabled={!this.state.erasing}>draw</button>
                 <canvas ref={this.canvas}
                     onMouseDown={this.handleMouseDown} 
                     onMouseMove={this.handleMouseMove} 

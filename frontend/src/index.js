@@ -15,7 +15,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (localStorage.jwtToken) {
         setAuthToken(localStorage.jwtToken);
         const decodedUser = jwt_decode(localStorage.jwtToken);
-        const preloadedState = { auth: { authenticated: true, user: decodedUser }};
+        const preloadedState = { 
+            auth: { authenticated: true, user: decodedUser }, 
+            ui: { modal: 'splash' }
+        };
         store = configureStore(preloadedState);
         const currentTime = Date.now() / 1000;
         if (decodedUser.exp < currentTime) {
@@ -23,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
             window.location.href = '/login';
         } 
     } else {
-        store = configureStore({});
+        store = configureStore({ ui: { modal: 'splash' } });
     }
 
     const root = document.getElementById('root');

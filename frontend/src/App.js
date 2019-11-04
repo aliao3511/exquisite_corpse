@@ -1,24 +1,26 @@
 import React from 'react';
-import { Switch } from 'react-router-dom';
-import { AuthRoute, ProtectedRoute } from './components/auth/route_util';
+import { Switch, Route } from 'react-router-dom';
 // import logo from './logo.svg';
 // import './App.css';
 
-import LoginForm from './components/auth/login_form';
-import SignupForm from './components/auth/signup_form';
-import NavBar from './components/navbar';
+// import { AuthRoute, ProtectedRoute } from './components/auth/route_util';
+// import LoginForm from './components/auth/login_form';
+// import SignupForm from './components/auth/signup_form';
+// import NavBar from './components/navbar';
 // import Home from './components/home';
-import Canvas from './components/canvas';
+import Canvas from './components/canvas/canvas';
+import Modal from './components/modal/modal';
 
 const App = () => (
   <div>
-    <NavBar />
+    {/* <NavBar /> */}
+    <Modal />
     {/* <Home /> */}
-    <Canvas />
+    {/* <Canvas /> */}
     <Switch>
-      {/* <AuthRoute exact path='/' component={<div>hi</div>} /> */}
-      <AuthRoute exact path='/login' component={LoginForm} />
-      <AuthRoute exact path='/signup' component={SignupForm} />
+      <Route path='/' />
+      {/* <AuthRoute exact path='/login' component={LoginForm} /> */}
+      {/* <AuthRoute exact path='/signup' component={SignupForm} /> */}
     </Switch>
   </div>
 );

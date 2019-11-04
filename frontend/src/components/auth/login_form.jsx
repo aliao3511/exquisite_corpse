@@ -3,6 +3,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 
 import { login, clearErrors } from '../../modules/auth';
+import { openModal } from '../../modules/ui/modal';
 
 const msp = state => ({
     errors: state.errors.auth,
@@ -19,6 +20,7 @@ class LoginForm extends React.Component {
         };
         
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.toggleForm = this.toggleForm.bind(this);
     }
 
     componentDidMount() {
@@ -54,6 +56,11 @@ class LoginForm extends React.Component {
         );
     }
 
+    toggleForm(e) {
+        e.preventDefault();
+        this.props.openModal('signup');
+    }
+
     render() {
         return (
             <div>
@@ -73,6 +80,7 @@ class LoginForm extends React.Component {
                         />
                     </div>                                     
                     <input type="submit" value="submit"/>
+                    <button onClick={this.toggleForm}>Or sign up</button>
                     {this.renderErrors()}
                 </form>
             </div>
@@ -81,4 +89,4 @@ class LoginForm extends React.Component {
 
 }
 
-export default connect(msp, { login, clearErrors })(withRouter(LoginForm));
+export default connect(msp, { login, clearErrors, openModal })(withRouter(LoginForm));

@@ -8,10 +8,9 @@ class Home extends React.Component {
     render() {
         return (
             <div>
-                <button onClick={() => {
-                    console.log('heyo');
+                {/* <button onClick={() => {
                     socket.emit('test', 'heyo!!!');
-                }}>heyo</button>
+                }}>heyo</button> */}
             </div>
         )
     }
