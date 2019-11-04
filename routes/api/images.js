@@ -14,45 +14,40 @@ const s3 = new AWS.S3({
 });
 
 // POST /save - save image
-router.post('/save', upload.single('image'), async (req, res) => {
-    debugger
+router.post('/save', upload.single('image'), (req, res) => {
     const data = req.file;
     const newImage = new Image();
     newImage.contentType = req.file.mimetype;
-    debugger
-    // newImage.data = data.buffer;
-    // newImage.data = data;
+
     const params = {
         Bucket: BUCKET_NAME,
         Key: 'test.png',
         Body: req.file.buffer
     };
 
-    s3.upload(params, (err, data) => {
+    s3.upload(params, async (err, data) => {
         if (err) throw err;
-        debugger
-        console.log('uploaded!');
+        console.log('uploaded to AWS!');
+        newImage.url = data.Location;
+        newImage.save((err, image) => {
+            res.contentType = image.contentType;
+            res.json({
+                image
+            });
+        });
     });
-
-    debugger
-    // newImage.save((err, image) => {
-    //     res.json({
-    //         success: true,
-    //         id: image.id,
-    //     });
-    // });
 });
 
 // GET /:id - get image
-// router.get('/:id', async (req, res) => {
-//     debugger
-//     const image = await Image.findById(req.params.id);
-//     if (!image) {
-//         return res.status(404).json({ image: 'image not found' });
-//     }
-//     res.contentType = image.contentType;
-//     debugger
-//     res.send(image.data);
-// });
+router.get('/:id', async (req, res) => {
+    const image = await Image.findById(req.params.id);
+    if (!image) {
+        return res.status(404).json({ image: 'image not found' });
+    }
+    res.contentType = image.contentType;
+    res.json({
+        image
+    });
+});
 
 module.exports = router;

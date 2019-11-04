@@ -3,6 +3,10 @@ import { connect } from 'react-redux';
 
 import { saveImage, getImage } from '../modules/canvas';
 
+const msp = state => ({
+    image: state.canvas.image,
+});
+
 class Canvas extends React.Component {
 
     constructor(props) {
@@ -87,12 +91,10 @@ class Canvas extends React.Component {
     }
 
     save() {
-        const image = this.canvas.current.toBlob(async imageBlob => {
+        const image = this.canvas.current.toBlob(imageBlob => {
             const imageData = new FormData();
             imageData.append('image', imageBlob);
-            const savedImage = await this.props.saveImage(imageData);
-            debugger
-            this.setState({ img: savedImage });
+            const savedImage = this.props.saveImage(imageData);
         });
     }
 
@@ -110,11 +112,11 @@ class Canvas extends React.Component {
                     style={style}
                 />
                 <button onClick={this.save}>save me</button>
-                {/* {this.state.img && <img src={this.state.img} alt=''></img>} */}
+                {this.props.image && <img src={this.props.image.url} alt=''></img>}
             </div>
         )
     }
 
 }
 
-export default connect(null, { saveImage, getImage })(Canvas);
+export default connect(msp, { saveImage, getImage })(Canvas);
