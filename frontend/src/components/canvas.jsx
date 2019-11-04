@@ -1,4 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
+import { saveImage, getImage } from '../modules/canvas';
 
 class Canvas extends React.Component {
 
@@ -28,7 +31,6 @@ class Canvas extends React.Component {
         canvas.height = 500;
     }
 
-
     handleMouseDown(e) {
         if (e.button !== 0) return;
         const point = this.relativeCoordinates(e);
@@ -40,7 +42,6 @@ class Canvas extends React.Component {
 
     handleMouseMove(e) {
         if (!this.state.drawing) return;
-        // const line = this.state.lines[this.state.lines.length - 1];
         const start = this.state.currentLine[this.state.currentLine.length - 1];
         const end = this.relativeCoordinates(e);
         this.setState({
@@ -86,9 +87,20 @@ class Canvas extends React.Component {
     }
 
     save() {
+        // const img = this.canvas.current.toDataURL();
+        
         debugger
-        const img = this.canvas.current.toDataURL();
-        this.setState({ img });
+        const image = this.canvas.current.toBlob(async imageBlob => {
+            debugger
+            const imageData = new FormData();
+            // imageData.append('image', URL.createObjectURL(imageBlob));
+            imageData.append('image', imageBlob);
+            const savedImage = await this.props.saveImage(imageData);
+            // const image = await this.props.getImage(savedImage.id);
+            debugger
+            // this.setState({ img: URL.createObjectURL(imageBlob) });
+            // this.setState({ img: savedImage.data });
+        });
     }
 
     render() {
@@ -105,11 +117,11 @@ class Canvas extends React.Component {
                     style={style}
                 />
                 <button onClick={this.save}>save me</button>
-                {this.state.img && <img src={this.state.img} alt=''></img>}
+                {/* {this.state.img && <img src={this.state.img} alt=''></img>} */}
             </div>
         )
     }
 
 }
 
-export default Canvas;
+export default connect(null, { saveImage, getImage })(Canvas);

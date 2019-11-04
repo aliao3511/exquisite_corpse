@@ -4,9 +4,14 @@ const mongoose = require('mongoose');
 const db = require('./config/keys').mongoURI;
 const bodyParser = require('body-parser');
 const passport = require('passport');
+const fs = require('fs');
+const AWS = require('aws-sdk');
+
+const { ID, SECRET, BUCKET_NAME, BUCKET_NAME_PRO } = require('./config/aws');
 
 // route imports
 const users = require('./routes/api/users');
+const images = require('./routes/api/images');
 //
 
 mongoose
@@ -24,7 +29,7 @@ require('./config/passport')(passport);
 
 // ROUTES
 app.use('/api/users', users);
-
+app.use('/api/images', images);
 // app.get('/', (req, res) => {
 //     // debugger
 //     res.send('heyo');

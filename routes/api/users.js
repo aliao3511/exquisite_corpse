@@ -55,10 +55,8 @@ router.post('/login', async (req, res) => {
         return res.status(400).json(errors);
     }
 
-    // const { email, password } = req.body;
     const { identifier, password } = req.body;
 
-    // const user = await User.findOne({ email });    
     const user = await User.findOne({ $or: [
         { email: identifier },
         { username: identifier }
