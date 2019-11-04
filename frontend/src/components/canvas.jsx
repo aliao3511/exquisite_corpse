@@ -14,6 +14,8 @@ class Canvas extends React.Component {
 
         this.state = {
             drawing: false,
+            pencil: true,
+            eraser: false,
             lines: [],
             currentLine: [],
             img: null
@@ -27,6 +29,7 @@ class Canvas extends React.Component {
         this.relativeCoordinates = this.relativeCoordinates.bind(this);
         this.drawLine = this.drawLine.bind(this);
         this.save = this.save.bind(this);
+        this.toggleMode = this.toggleMode.bind(this);
     }
 
     componentDidMount() {
@@ -84,8 +87,14 @@ class Canvas extends React.Component {
         context.beginPath();
         context.moveTo(x_start, y_start);
         context.lineTo(x_end, y_end);
-        context.strokeStyle = '#000000';
-        context.lineWidth = 0.5;
+        if (this.state.erasing) {
+            context.globalCompositeOperation = 'destination-out';
+            context.strokeStyle='rgba(255,255,255,1)';
+            context.lineWidth = 5;
+        } else {
+            context.strokeStyle = '#000000';
+            context.lineWidth = 0.5;
+        }
         context.stroke();
         context.closePath();
     }
@@ -98,6 +107,13 @@ class Canvas extends React.Component {
         });
     }
 
+    toggleMode(field) {
+        return e => {
+            e.preventDefault();
+            this.setState({ [field]: !this.state.field });
+        }
+    }
+
     render() {
         const style = {
             border: 'solid',
@@ -105,6 +121,8 @@ class Canvas extends React.Component {
 
         return (
             <div>
+                <button onClick={this.toggleMode('erasing')}>erase</button>
+                <button onClick={this.toggleMode('pencil')}>draw</button>
                 <canvas ref={this.canvas}
                     onMouseDown={this.handleMouseDown} 
                     onMouseMove={this.handleMouseMove} 
