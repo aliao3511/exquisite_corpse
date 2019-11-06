@@ -5,7 +5,7 @@ const Counter = require('./Counter');
 const ImageSchema = new Schema({
     url: String, 
     contentType: String,
-    zone: { type: [Number], required: true, unique: true, dropDups: true },
+    zone: { type: [Number], required: true },
     filled: { type: Boolean, default: false },
     top: { type: this, default: null },
     right: { type: this, default: null },
@@ -14,7 +14,7 @@ const ImageSchema = new Schema({
 }, { timestamps: true });
 
 // insert blank documents for adjacent squares
-ImageSchema.pre('save', next => {
+ImageSchema.pre('save', async function(next) {
     const document = this;
     const adjacentSquares = {
         top: document.zone[0] > 0 ? [document.zone[0] - 1, document.zone[1]] : null,
@@ -22,37 +22,40 @@ ImageSchema.pre('save', next => {
         left: document.zone[1] > 0 ? [document.zone[0], document.zone[1] - 1] : null,
         bottom: [document.zone[0] + 1, document.zone[1]]
     };
-    Object.keys(adjacentSquares).forEach(async pos => {
+
+    const squares = Object.keys(adjacentSquares);
+    for (let i = 0; i < squares.length; i++) {
+        const pos = squares[i];
         let positions = { top: null, right: null, left: null, bottom: null };
         switch(pos) {
             case 'top':
-                positions[bottom] = document;
+                positions.bottom = document;
                 break;
             case 'bottom':
-                positions[top] = document;
+                positions.top = document;
                 break;
             case 'left':
-                positions[right] = document;
+                positions.right = document;
                 break;
             default: // case 'right'
-                positions[left] = document;
+                positions.left = document;
         }
 
-        debugger
-        const square = await Image.update(
-            { zone: adjacentSquares[pos] },
-            { $setonInsert: {
-                zone: pos,
+        if (adjacentSquares[pos]) {
+            const query = { zone: adjacentSquares[pos] };
+            const update = { $set: {
+                zone: adjacentSquares[pos],
                 filled: false,
                 ...positions
-            } },
-            { upsert: true }
-        );
-
-        debugger
-        this[pos] = square;
-        next();
-    });
+                }
+            };
+            const options = { upsert: true, new: true };
+            const square = await Image.findOneAndUpdate(query, update, options).catch(e => console.log(e));
+            document[pos] = square;
+        }
+    }
+    debugger
+    next();
 });
 
 module.exports = Image = mongoose.model('images', ImageSchema);

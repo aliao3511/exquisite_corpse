@@ -85,7 +85,7 @@ export const getBase = () => async dispatch => {
 };
 
 export const seedImage = image => async dispatch => {
-    const response = await axios.get(`api/images/seed`);
+    const response = await axios.post(`api/images/seed`, image);
     return dispatch(receiveImage(response.data.image));
 };
 

@@ -26,20 +26,21 @@ router.post('/seed', upload.single('image'), async (req, res) => {
         Body: req.file.buffer
     };
 
-    s3.upload(params, async (err, data) => {
-        if (err) throw err;
-        console.log('uploaded to AWS!');
-        // const images = await Image.find({ filled: false });
+    // s3.upload(params, async (err, data) => {
+    //     if (err) throw err;
+    //     console.log('uploaded to AWS!');
 
-        newImage.url = data.Location;
+    //     newImage.url = data.Location;
         newImage.filled = true;
+        newImage.zone = [0,0];
         newImage.save((err, image) => {
+            debugger
             res.contentType = image.contentType;
             res.json({
                 image
             });
         });
-    });
+    // });
 });
 
 // GET /draw - get borders for given canvas
@@ -69,7 +70,7 @@ router.post('/save', upload.single('image'), (req, res) => {
     s3.upload(params, async (err, data) => {
         if (err) throw err;
         console.log('uploaded to AWS!');
-        // const images = await Image.find({ filled: false });
+        const images = await Image.find({ filled: false });
 
         newImage.url = data.Location;
         newImage.filled = true;

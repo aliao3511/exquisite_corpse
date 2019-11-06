@@ -1,14 +1,19 @@
 div.canvas-container {
 
-    // position: relative;
+    position: relative;
+    box-sizing: border-box;
+    width: 700px;
+    height: 600px;
+    background-color: blue;
 
     canvas.drawing {
-        border: 3px solid black;
+        border: 2px solid #d3d3d3;
         box-sizing: border-box;
-        // position: absolute;
-        // top: 10px;
-        // left: 10px;
-        // right: 10px;
+        width: 600px;
+        height: 500px;
+        position: absolute;
+        top: 50px;
+        left: 50px;
     }
 
     canvas.frame {

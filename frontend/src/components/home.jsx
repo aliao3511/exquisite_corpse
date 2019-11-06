@@ -5,7 +5,7 @@ import io from 'socket.io-client';
 
 import NavBar from '../components/navbar';
 
-const socket = io('http://localhost:5000'); // dev socket
+// const socket = io('http://localhost:5000'); // dev socket
 // const socket = io(); // prod socket
 
 class Home extends React.Component {

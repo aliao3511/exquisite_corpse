@@ -15,7 +15,7 @@ const images = require('./routes/api/images');
 //
 
 mongoose
-    .connect(db, { userNewUrlParser: true })
+    .connect(db, { userNewUrlParser: true, useFindAndModify: false })
     .then(() => console.log('connected to mongoDB'))
     .catch(err => console.log(err));
 
@@ -35,10 +35,10 @@ const port = process.env.PORT || 5000;
 const server = app.listen(port, () => console.log(`server running on port ${port}`));
 
 // SOCKET
-const io = require('socket.io').listen(server);
-io.on('connection', socket => {
-    console.log('socket connected!');
+// const io = require('socket.io').listen(server);
+// io.on('connection', socket => {
+//     console.log('socket connected!');
 
-    socket.on('disconnected', () => console.log('socket disconnected!'));
-    socket.on('test', msg => console.log(msg));
-});
+//     socket.on('disconnected', () => console.log('socket disconnected!'));
+//     socket.on('test', msg => console.log(msg));
+// });

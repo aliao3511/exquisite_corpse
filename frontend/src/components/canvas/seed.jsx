@@ -30,14 +30,14 @@ class Seed extends React.Component {
         this.handleMouseUp = this.handleMouseUp.bind(this);
         this.relativeCoordinates = this.relativeCoordinates.bind(this);
         this.drawLine = this.drawLine.bind(this);
-        this.save = this.save.bind(this);
+        this.seed = this.seed.bind(this);
         this.startErasing = this.startErasing.bind(this);
         this.stopErasing = this.stopErasing.bind(this);
     }
 
     componentDidMount() {
         const canvas = this.canvas.current;
-        canvas.width = 500;
+        canvas.width = 600;
         canvas.height = 500;
 
         // this.props.getBase();
@@ -105,12 +105,12 @@ class Seed extends React.Component {
         context.closePath();
     }
 
-    save() {
+    seed() {
         this.canvas.current.toBlob(imageBlob => {
             const imageData = new FormData();
             imageData.append('image', imageBlob);
             // imageData.append('base', this.props.base);
-            this.props.saveImage(imageData);
+            this.props.seedImage(imageData);
         });
     }
 
@@ -134,12 +134,12 @@ class Seed extends React.Component {
                         onMouseMove={this.handleMouseMove} 
                         onMouseUp={this.handleMouseUp}
                     />
-                    <canvas className='frame' ref={this.frame}></canvas>
+                    {/* <canvas className='frame' ref={this.frame}></canvas> */}
                     {/* <div className='frame'></div> */}
                 </div>
                 <button onClick={this.startErasing} disabled={this.state.erasing}>erase</button>
                 <button onClick={this.stopErasing} disabled={!this.state.erasing}>draw</button>
-                <button onClick={this.seedImage}>seed me</button>
+                <button onClick={this.seed}>seed me</button>
                 <button onClick={() => this.props.history.push('/')}>cancel</button>
                 {this.props.image && <img src={this.props.image.url} alt=''></img>}
             </>
