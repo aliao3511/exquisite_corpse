@@ -7,10 +7,22 @@ const ImageSchema = new Schema({
     contentType: String,
     zone: { type: [Number], required: true },
     filled: { type: Boolean, default: false },
-    top: { type: this, default: null },
-    right: { type: this, default: null },
-    left: { type: this, default: null },
-    bottom: { type: this, default: null }
+    top: {
+        id: { type: Schema.ObjectId },
+        url: { type: String }
+    },
+    right: {
+        id: { type: Schema.ObjectId },
+        url: { type: String }
+    },
+    left: {
+        id: { type: Schema.ObjectId },
+        url: { type: String }
+    },
+    bottom: {
+        id: { type: Schema.ObjectId },
+        url: { type: String }
+    },
 }, { timestamps: true });
 
 // insert blank documents for adjacent squares
@@ -24,21 +36,22 @@ ImageSchema.pre('save', async function(next) {
     };
 
     const squares = Object.keys(adjacentSquares);
+    const savedImage = { id: document.id, url: document.url };
     for (let i = 0; i < squares.length; i++) {
         const pos = squares[i];
         let positions = { top: null, right: null, left: null, bottom: null };
         switch(pos) {
             case 'top':
-                positions.bottom = document;
+                positions.bottom = savedImage;
                 break;
             case 'bottom':
-                positions.top = document;
+                positions.top = savedImage;
                 break;
             case 'left':
-                positions.right = document;
+                positions.right = savedImage;
                 break;
             default: // case 'right'
-                positions.left = document;
+                positions.left = savedImage;
         }
 
         if (adjacentSquares[pos]) {
@@ -51,10 +64,11 @@ ImageSchema.pre('save', async function(next) {
             };
             const options = { upsert: true, new: true };
             const square = await Image.findOneAndUpdate(query, update, options).catch(e => console.log(e));
-            document[pos] = square;
+            document[pos] = { id: square.id, url: null };
+        } else {
+            document[pos] = null;
         }
     }
-    debugger
     next();
 });
 
