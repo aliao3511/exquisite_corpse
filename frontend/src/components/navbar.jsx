@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 import { logout } from '../modules/auth';
+import { openModal } from '../modules/ui/modal';
 
 const msp = state => ({
     loggedIn: state.auth.authenticated,
@@ -21,17 +21,18 @@ class NavBar extends React.Component {
     }
 
     links() {
-        if (this.props.loggedIn) {
+        const { openModal, loggedIn, logout } = this.props;
+        if (loggedIn) {
             return (
                 <div>
-                    <button onClick={this.logout}>log out</button>
+                    <button onClick={logout}>Log Out</button>
                 </div>
             );
         } else {
             return (
                 <div>
-                    <Link to='/signup'>sign up</Link>
-                    <Link to='/login'>log in</Link>
+                    <button onClick={() => openModal('signup')}>Sign Up</button>
+                    <button onClick={() => openModal('login')}>Log In</button>
                 </div>
             );
         }
@@ -47,4 +48,4 @@ class NavBar extends React.Component {
 
 }
 
-export default connect(msp, { logout })(NavBar);
+export default connect(msp, { logout, openModal })(NavBar);

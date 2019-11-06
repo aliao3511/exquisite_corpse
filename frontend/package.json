@@ -8,6 +8,7 @@
     "immutable": "^4.0.0-rc.12",
     "jwt-decode": "^2.2.0",
     "node-sass": "^4.13.0",
+    "normalize.css": "^8.0.1",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-redux": "^7.1.1",

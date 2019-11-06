@@ -1,3 +1,5 @@
+import { RECEIVE_CURRENT_USER } from '../auth';
+
 // action types
 const OPEN_MODAL = 'e-c/modal/OPEN_MODAL';
 const CLOSE_MODAL = 'e-c/modal/CLOSE_MODAL';
@@ -9,6 +11,8 @@ export default function reducer(state = null, action) {
         case OPEN_MODAL:
             return action.modal;
         case CLOSE_MODAL:
+            return null;
+        case RECEIVE_CURRENT_USER:
             return null;
         default:
             return state;

@@ -1,14 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { saveImage, getImage, getBase } from '../../modules/canvas';
+import { seedImage, getBase } from '../../modules/canvas';
+import './canvas.scss';
 
 const msp = state => ({
     image: state.canvas.image,
-    base: state.canvas.base,
+    // base: state.canvas.base,
 });
 
-class Canvas extends React.Component {
+class Seed extends React.Component {
 
     constructor(props) {
         super(props);
@@ -22,6 +23,7 @@ class Canvas extends React.Component {
         };
 
         this.canvas = React.createRef('canvas');
+        this.frame = React.createRef('frame');
 
         this.handleMouseDown = this.handleMouseDown.bind(this);
         this.handleMouseMove = this.handleMouseMove.bind(this);
@@ -38,7 +40,7 @@ class Canvas extends React.Component {
         canvas.width = 500;
         canvas.height = 500;
 
-        this.props.getBase();
+        // this.props.getBase();
     }
 
     handleMouseDown(e) {
@@ -107,7 +109,7 @@ class Canvas extends React.Component {
         this.canvas.current.toBlob(imageBlob => {
             const imageData = new FormData();
             imageData.append('image', imageBlob);
-            imageData.append('base', this.props.base);
+            // imageData.append('base', this.props.base);
             this.props.saveImage(imageData);
         });
     }
@@ -123,28 +125,27 @@ class Canvas extends React.Component {
     }
 
     render() {
-        const style = {
-            boxSizing: 'border-box',
-            border: 'solid',
-        };
 
         return (
-            <div>
+            <>
+                <div className='canvas-container'>
+                    <canvas className='drawing' ref={this.canvas}
+                        onMouseDown={this.handleMouseDown} 
+                        onMouseMove={this.handleMouseMove} 
+                        onMouseUp={this.handleMouseUp}
+                    />
+                    <canvas className='frame' ref={this.frame}></canvas>
+                    {/* <div className='frame'></div> */}
+                </div>
                 <button onClick={this.startErasing} disabled={this.state.erasing}>erase</button>
                 <button onClick={this.stopErasing} disabled={!this.state.erasing}>draw</button>
-                <canvas ref={this.canvas}
-                    onMouseDown={this.handleMouseDown} 
-                    onMouseMove={this.handleMouseMove} 
-                    onMouseUp={this.handleMouseUp}
-                    style={style}
-                />
-                <button onClick={this.save}>save me</button>
+                <button onClick={this.seedImage}>seed me</button>
                 <button onClick={() => this.props.history.push('/')}>cancel</button>
                 {this.props.image && <img src={this.props.image.url} alt=''></img>}
-            </div>
+            </>
         )
     }
 
 }
 
-export default connect(msp, { saveImage, getImage, getBase })(Canvas);
+export default connect(msp, { seedImage, getBase })(Seed);

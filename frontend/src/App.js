@@ -4,23 +4,20 @@ import { Switch, Route } from 'react-router-dom';
 // import './App.css';
 
 // import { AuthRoute, ProtectedRoute } from './components/auth/route_util';
-// import LoginForm from './components/auth/login_form';
-// import SignupForm from './components/auth/signup_form';
 // import NavBar from './components/navbar';
-// import Home from './components/home';
+import Home from './components/home';
 import Canvas from './components/canvas/canvas';
 import Modal from './components/modal/modal';
+import Seed from './components/canvas/seed';
 
 const App = () => (
   <div>
     {/* <NavBar /> */}
     <Modal />
-    {/* <Home /> */}
-    {/* <Canvas /> */}
     <Switch>
-      <Route path='/' />
-      {/* <AuthRoute exact path='/login' component={LoginForm} /> */}
-      {/* <AuthRoute exact path='/signup' component={SignupForm} /> */}
+      <Route path='/draw' component={Canvas} />
+      <Route path='/seed' component={Seed} />
+      <Route exact path='/' component={Home} />
     </Switch>
   </div>
 );

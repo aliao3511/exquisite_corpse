@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import jwt_decode from 'jwt-decode';
+import 'normalize.css';
 
 // import './index.css';
 // import App from './App';
@@ -16,8 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setAuthToken(localStorage.jwtToken);
         const decodedUser = jwt_decode(localStorage.jwtToken);
         const preloadedState = { 
-            auth: { authenticated: true, user: decodedUser }, 
-            ui: { modal: 'splash' }
+            auth: { authenticated: true, user: decodedUser }
         };
         store = configureStore(preloadedState);
         const currentTime = Date.now() / 1000;

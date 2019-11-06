@@ -11,7 +11,7 @@ const ModalText = () => {
     return !continued ? (
         <div>
             <strong>Welcome to Exquisite Corpse!</strong>
-            <p>Exquisite Corpse is a collaborate drawing application based off of artist Xavier Barrade's 2011 project 'Epic Exquisite Corpse'.</p>
+            <p>Exquisite Corpse is a collaborative drawing application based off of artist Xavier Barrade's 2011 project 'Epic Exquisite Corpse'.</p>
             <button onClick={() => setContinued(true)}>Continue</button>
         </div> 
     ) : (
