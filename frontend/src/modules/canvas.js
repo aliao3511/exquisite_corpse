@@ -29,14 +29,11 @@ export default function reducer(state = _nullState, action) {
                 base: action.base
             };
         case RECEIVE_IMAGES:
-            // action.images.reduce((images, image) => images[image._id] = image, images);
-            // debugger
             return {
                 ...state,
                 images: action.images
             };
         case RECEIVE_USER_IMAGES:
-            // action.images.reduce((user, image) => user[image._id] = image, images);
             return {
                 ...state,
                 user: action.images

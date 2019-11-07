@@ -6,7 +6,6 @@ import './canvas.scss';
 
 const msp = state => ({
     image: state.canvas.image,
-    // base: state.canvas.base,
 });
 
 class Seed extends React.Component {
@@ -40,7 +39,6 @@ class Seed extends React.Component {
         canvas.width = 600;
         canvas.height = 500;
 
-        // this.props.getBase();
     }
 
     handleMouseDown(e) {
@@ -109,7 +107,6 @@ class Seed extends React.Component {
         this.canvas.current.toBlob(imageBlob => {
             const imageData = new FormData();
             imageData.append('image', imageBlob);
-            // imageData.append('base', this.props.base);
             this.props.seedImage(imageData);
         });
     }
@@ -134,8 +131,6 @@ class Seed extends React.Component {
                         onMouseMove={this.handleMouseMove} 
                         onMouseUp={this.handleMouseUp}
                     />
-                    {/* <canvas className='frame' ref={this.frame}></canvas> */}
-                    {/* <div className='frame'></div> */}
                 </div>
                 <button onClick={this.startErasing} disabled={this.state.erasing}>erase</button>
                 <button onClick={this.stopErasing} disabled={!this.state.erasing}>draw</button>

@@ -54,7 +54,7 @@ class Home extends React.Component {
             <div>
                 <NavBar />
                 <div className='corpse'>
-                    {this.makeCorpse()}
+                    {this.makeCorpse().map((row, idx) => <div className={`row`} key={idx}>{row}</div>)}
                 </div>
                 {/* <button onClick={() => {
                     socket.emit('test', 'heyo!!!');

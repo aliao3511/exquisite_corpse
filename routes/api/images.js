@@ -32,7 +32,6 @@ router.post('/seed', upload.single('image'), async (req, res) => {
 // GET /draw - get borders for given canvas
 router.get('/draw', async (req, res) => {
     const images = await Image.find({ filled: false });
-    debugger
     const base = images[Math.floor(Math.random() * images.length)];
     res.json({
         base,
@@ -41,7 +40,6 @@ router.get('/draw', async (req, res) => {
 
 // POST /save - save image
 router.post('/save', upload.single('image'), async (req, res) => {
-    debugger
     const baseId = req.body.baseId;
     const data = req.file;
     const newImage = await Image.findById(baseId);

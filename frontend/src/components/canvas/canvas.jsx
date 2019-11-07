@@ -37,7 +37,6 @@ class Canvas extends React.Component {
 
     componentDidMount() {
         const canvas = this.canvas.current;
-        debugger
         canvas.width = 600;
         canvas.height = 500;
 
