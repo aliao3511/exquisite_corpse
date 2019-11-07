@@ -8,6 +8,8 @@ import './App.css';
 import Home from './components/home/home';
 import Canvas from './components/canvas/canvas';
 import Modal from './components/modal/modal';
+
+// seediing
 import Seed from './components/canvas/seed';
 
 const App = () => (
@@ -15,7 +17,7 @@ const App = () => (
     <Modal />
     <Switch>
       <Route path='/draw' component={Canvas} />
-      {/* <Route path='/seed' component={Seed} /> */}
+      <Route path='/seed' component={Seed} />
       <Route exact path='/' component={Home} />
     </Switch>
   </div>

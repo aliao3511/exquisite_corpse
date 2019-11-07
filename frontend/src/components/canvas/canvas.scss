@@ -1,3 +1,7 @@
+// #root {
+//     background-color: black;
+// }
+
 div.canvas {
     
     width: 700px;
@@ -58,4 +62,9 @@ div.bottom { // bottom border
         object-fit: cover;
         object-position: center top;
     }    
+}
+
+// buttons
+button {
+    background-color: white;
 }

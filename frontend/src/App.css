@@ -21,7 +21,7 @@ ul {
 }
 
 img {
-  dispaly: block;
+  display: block;
 }
 
 input[type="password"],
@@ -38,4 +38,8 @@ button {
 button,
 input[type="submit"] {
   cursor: pointer;
+}
+
+html {
+  font-family: 'Patrick Hand', cursive;
 }

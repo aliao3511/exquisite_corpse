@@ -15,7 +15,7 @@ const _nullState = {
 
 export default function reducer(state = _nullState, action) {
     Object.freeze(state);
-    const images = {};
+    const images = [];
     const user = {};
     switch(action.type) {
         case RECEIVE_IMAGE:
@@ -29,16 +29,17 @@ export default function reducer(state = _nullState, action) {
                 base: action.base
             };
         case RECEIVE_IMAGES:
-            action.images.reduce((images, image) => images[image._id] = image, images);
+            // action.images.reduce((images, image) => images[image._id] = image, images);
+            // debugger
             return {
                 ...state,
-                images
+                images: action.images
             };
         case RECEIVE_USER_IMAGES:
-            action.images.reduce((user, image) => user[image._id] = image, images);
+            // action.images.reduce((user, image) => user[image._id] = image, images);
             return {
                 ...state,
-                user
+                user: action.images
             };
         default:
             return state;
@@ -69,7 +70,7 @@ export const receiveUserImages = images => ({
 });
 
 // thunk action creators
-export const saveImage = image => async dispatch => {
+export const saveImage = (image) => async dispatch => {
     const response = await axios.post('/api/images/save', image);
     return dispatch(receiveImage(response.data.image));
 };
@@ -84,13 +85,13 @@ export const getBase = () => async dispatch => {
     return dispatch(receiveBase(response.data.base));
 };
 
-export const seedImage = image => async dispatch => {
-    const response = await axios.post(`api/images/seed`, image);
-    return dispatch(receiveImage(response.data.image));
-};
-
 export const getCorpse = () => async dispatch => {
     const response = await axios.get(`/api/images/corpse`);
     return dispatch(receiveImages(response.data.images));
 };
 
+// seeding
+export const seedImage = image => async dispatch => {
+    const response = await axios.post(`api/images/seed`, image);
+    return dispatch(receiveImage(response.data.image));
+};

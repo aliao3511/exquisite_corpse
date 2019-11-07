@@ -31,14 +31,21 @@ class Home extends React.Component {
         let rowCounter = 0;
         let row = [];
         for (let i = 0; i < this.props.images.length; i++) {
+            debugger
             let image = this.props.images[i];
             if (image.zone[0] === rowCounter) {
+                debugger
                 row.push(<img className={`zone ${image.zone.join(',')}`} src={image.url}></img>);
+                debugger
+            } else {
+                debugger
+                rowCounter++;
+                rows.push(row);
+                row = [<img className={`zone ${image.zone.join(',')}`} src={image.url}></img>];
             }
-            rows.push(row);
-            rowCounter++;
-            row = [];
         }
+        rows.push(row);
+        debugger
         return rows;
     }
 

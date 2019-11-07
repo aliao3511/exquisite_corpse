@@ -18,9 +18,9 @@ router.post('/seed', upload.single('image'), async (req, res) => {
     const data = req.file;
     const newImage = new Image();
     newImage.contentType = req.file.mimetype;
-    newImage.url = 'https://s3.amazonaws.com/exquisite.corpse.dev/0.0.png';
     newImage.filled = true;
     newImage.zone = [0,0];
+    newImage.url = 'https://s3.amazonaws.com/exquisite.corpse.dev/0.0.png';
     newImage.save((err, image) => {
         res.contentType = image.contentType;
         res.json({
@@ -32,6 +32,7 @@ router.post('/seed', upload.single('image'), async (req, res) => {
 // GET /draw - get borders for given canvas
 router.get('/draw', async (req, res) => {
     const images = await Image.find({ filled: false });
+    debugger
     const base = images[Math.floor(Math.random() * images.length)];
     res.json({
         base,
@@ -39,24 +40,25 @@ router.get('/draw', async (req, res) => {
 });
 
 // POST /save - save image
-router.post('/save', upload.single('image'), (req, res) => {
+router.post('/save', upload.single('image'), async (req, res) => {
+    debugger
+    const baseId = req.body.baseId;
     const data = req.file;
-    const newImage = new Image();
-    // const image = Image.findById();
+    const newImage = await Image.findById(baseId);
     newImage.contentType = req.file.mimetype;
+
     const params = {
         Bucket: BUCKET_NAME,
-        Key: 'test.png',
+        Key: `${newImage.zone.join('.')}.png`, // need to change
         Body: req.file.buffer
     };
 
     s3.upload(params, async (err, data) => {
         if (err) throw err;
         console.log('uploaded to AWS!');
-        const images = await Image.find({ filled: false });
-
         newImage.url = data.Location;
         newImage.filled = true;
+        debugger
         newImage.save((err, image) => {
             res.contentType = image.contentType;
             res.json({

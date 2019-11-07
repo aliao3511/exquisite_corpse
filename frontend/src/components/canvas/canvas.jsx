@@ -5,7 +5,7 @@ import { saveImage, getImage, getBase } from '../../modules/canvas';
 
 const msp = state => ({
     image: state.canvas.image,
-    base: state.canvas.base,
+    base: state.canvas.base
 });
 
 class Canvas extends React.Component {
@@ -31,10 +31,13 @@ class Canvas extends React.Component {
         this.save = this.save.bind(this);
         this.startErasing = this.startErasing.bind(this);
         this.stopErasing = this.stopErasing.bind(this);
+        this.makeSideBorder = this.makeSideBorder.bind(this);
+        this.makeBorder = this.makeBorder.bind(this);
     }
 
     componentDidMount() {
         const canvas = this.canvas.current;
+        debugger
         canvas.width = 600;
         canvas.height = 500;
 
@@ -106,8 +109,8 @@ class Canvas extends React.Component {
     save() {
         this.canvas.current.toBlob(imageBlob => {
             const imageData = new FormData();
+            imageData.append('baseId', this.props.base._id);
             imageData.append('image', imageBlob);
-            imageData.append('base', this.props.base);
             this.props.saveImage(imageData);
         });
     }
@@ -122,55 +125,39 @@ class Canvas extends React.Component {
         this.setState({ erasing: false }, () => console.log(this.state));
     }
 
+    makeSideBorder(side) {
+        return this.props.base[side] ? <img className={side} src={this.props.base[side].url} /> : <div className={side}></div>;
+    }
+
+    makeBorder(side) {
+        return this.props.base[side] ? <img className={side} src={this.props.base[side].url} /> : null;
+    }
+
     render() {
-        if (!this.props.base) return null;
-
-        // const positions = { top: null, right: null, left: null, bottom: null };
-        // Object.keys(positions).forEach(pos => {
-        //     if (this.props.base[pos]) {
-        //         positions[pos] = {
-        //             backgroundImage: this.props.base[pos].url,
-        //             border: 'solid'
-        //         };
-        //     }
-        // });
-
         return (
             <>
                 <div className='canvas-container'>
                     <div className='canvas'>
                         <div className='top'>
-                            {this.props.base.top && <img src={this.props.base.top.url} />}
+                            {this.props.base && this.makeBorder('top')}
                         </div>
                         <div className='side'>
-                            {this.props.base.left ? <img className='left' src={this.props.base.left.url} /> : <div className='left'></div>}
+                            {this.props.base && this.makeSideBorder('left')}
                             <canvas ref={this.canvas}
                                 onMouseDown={this.handleMouseDown} 
                                 onMouseMove={this.handleMouseMove} 
                                 onMouseUp={this.handleMouseUp}
-                                />
-                            {this.props.base.right ? <img className='right' src={this.props.base.right.url} /> : <div className='right'></div>}
+                            />
+                            {this.props.base && this.makeSideBorder('right')}
                         </div>
                         <div className='bottom'>
-                            {this.props.base.bottom && <img src={this.props.base.bottom.url} />}
+                            {this.props.base && this.makeBorder('bottom')}
                         </div>
-                        {/* <div className='top' style={positions.top}></div>
-                        <div className='side'>
-                            <div className='left' style={positions.left}></div>
-                            <canvas ref={this.canvas}
-                                onMouseDown={this.handleMouseDown} 
-                                onMouseMove={this.handleMouseMove} 
-                                onMouseUp={this.handleMouseUp}
-                                />
-                            <div className='right' style={positions.right}></div>
-                        </div>
-                        <div className='bottom' style={positions.bottom}></div> */}
                     </div>
-                    {/* {this.props.image && <img src={this.props.image.url} alt=''></img>} */}
-                    {this.props.base.top && <img src={this.props.base.top.url} alt='' ></img>}
+                    {/* {this.props.base.top && <img src={this.props.base.top.url} alt='' ></img>}
                     {this.props.base.right && <img src={this.props.base.right.url} alt=''></img>}
                     {this.props.base.left && <img src={this.props.base.left.url} alt=''></img>}
-                    {this.props.base.bottom && <img src={this.props.base.bottom.url} alt=''></img>}
+                    {this.props.base.bottom && <img src={this.props.base.bottom.url} alt=''></img>} */}
                 </div>
                 <button onClick={this.startErasing} disabled={this.state.erasing}>erase</button>
                 <button onClick={this.stopErasing} disabled={!this.state.erasing}>draw</button>
