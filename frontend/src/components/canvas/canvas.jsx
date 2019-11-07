@@ -123,25 +123,41 @@ class Canvas extends React.Component {
     }
 
     render() {
-        const style = {
-            boxSizing: 'border-box',
-            border: 'solid',
-        };
+        if (!this.props.base) return null;
+        
+        // ['top', 'right', 'left', 'bottom'].map(pos => {
+        //     if (this.props.base[pos]) {
+        //         this.props.base[pos].url
+        //     }
+        // });
 
         return (
-            <div>
+            <>
+                <div className='canvas-container'>
+                    <div className='canvas'>
+                        <div className='top'></div>
+                        <div className='side'>
+                            <div className='left'></div>
+                            <canvas ref={this.canvas}
+                                onMouseDown={this.handleMouseDown} 
+                                onMouseMove={this.handleMouseMove} 
+                                onMouseUp={this.handleMouseUp}
+                                />
+                            <div className='right'></div>
+                        </div>
+                        <div className='bottom'></div>
+                    </div>
+                    {/* {this.props.image && <img src={this.props.image.url} alt=''></img>} */}
+                    {this.props.base.top && <img src={this.props.base.top.url} alt=''></img>}
+                    {this.props.base.right && <img src={this.props.base.right.url} alt=''></img>}
+                    {this.props.base.left && <img src={this.props.base.left.url} alt=''></img>}
+                    {this.props.base.bottom && <img src={this.props.base.bottom.url} alt=''></img>}
+                </div>
                 <button onClick={this.startErasing} disabled={this.state.erasing}>erase</button>
                 <button onClick={this.stopErasing} disabled={!this.state.erasing}>draw</button>
-                <canvas ref={this.canvas}
-                    onMouseDown={this.handleMouseDown} 
-                    onMouseMove={this.handleMouseMove} 
-                    onMouseUp={this.handleMouseUp}
-                    style={style}
-                />
                 <button onClick={this.save}>save me</button>
                 <button onClick={() => this.props.history.push('/')}>cancel</button>
-                {this.props.image && <img src={this.props.image.url} alt=''></img>}
-            </div>
+            </>
         )
     }
 

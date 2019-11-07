@@ -1,34 +1,54 @@
 div.canvas-container {
 
-    position: relative;
-    box-sizing: border-box;
+    // position: relative;
+    // width: 700px;
+    // height: 600px;
+
+    // canvas.drawing {
+    //     border: 2px solid #d3d3d3;
+    //     box-sizing: border-box;
+    //     width: 600px;
+    //     height: 500px;
+    //     position: absolute;
+    //     top: 50px;
+    //     left: 50px;
+    // }
+
+    // canvas.frame {
+        // position: absolute;
+    // }
+
+}
+
+// borders
+div.canvas {
+
     width: 700px;
     height: 600px;
-    background-color: blue;
 
-    canvas.drawing {
-        border: 2px solid #d3d3d3;
-        box-sizing: border-box;
-        width: 600px;
-        height: 500px;
-        position: absolute;
-        top: 50px;
-        left: 50px;
+    .top, .bottom {
+        width: 700px;
+        height: 50px;
+        background-color: blue;
     }
 
-    canvas.frame {
-        // position: absolute;
+}
+
+div.side {
+
+    display: flex;
+    height: 500px;
+
+    div {
+        width: 100px;
+        height: 100%;
+        background-color: blue;
     }
 
-    // .frame {
-    //     border: 3px solid #d3d3d3;
-    //     box-sizing: border-box;
-    //     position: absolute;
-    //     width: 400px;
-    //     height: 400px;
-    //     top: 10px;
-    //     left: 10px;
-    //     right: 10px;
-    // }
+    canvas {
+        width: 700px;
+        height: 100%;
+        border: 0.1px solid black;
+    }
 
 }

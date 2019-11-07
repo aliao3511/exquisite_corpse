@@ -32,6 +32,7 @@ router.post('/seed', upload.single('image'), async (req, res) => {
 // GET /draw - get borders for given canvas
 router.get('/draw', async (req, res) => {
     const images = await Image.find({ filled: false });
+    debugger
     const base = images[Math.floor(Math.random() * images.length)];
     res.json({
         base,
@@ -77,9 +78,5 @@ router.get('/:id', async (req, res) => {
         image
     });
 });
-
-
-
-
 
 module.exports = router;
