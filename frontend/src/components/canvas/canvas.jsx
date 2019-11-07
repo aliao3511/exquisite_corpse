@@ -35,7 +35,7 @@ class Canvas extends React.Component {
 
     componentDidMount() {
         const canvas = this.canvas.current;
-        canvas.width = 500;
+        canvas.width = 600;
         canvas.height = 500;
 
         this.props.getBase();
@@ -124,31 +124,35 @@ class Canvas extends React.Component {
 
     render() {
         if (!this.props.base) return null;
-        
-        // ['top', 'right', 'left', 'bottom'].map(pos => {
-        //     if (this.props.base[pos]) {
-        //         this.props.base[pos].url
-        //     }
-        // });
+
+        const positions = { top: null, right: null, left: null, bottom: null };
+        Object.keys(positions).forEach(pos => {
+            if (this.props.base[pos]) {
+                positions[pos] = {
+                    backgroundImage: this.props.base[pos].url,
+                    border: 'solid'
+                };
+            }
+        });
 
         return (
             <>
                 <div className='canvas-container'>
                     <div className='canvas'>
-                        <div className='top'></div>
+                        <div className='top' style={positions.top}></div>
                         <div className='side'>
-                            <div className='left'></div>
+                            <div className='left' style={positions.left}></div>
                             <canvas ref={this.canvas}
                                 onMouseDown={this.handleMouseDown} 
                                 onMouseMove={this.handleMouseMove} 
                                 onMouseUp={this.handleMouseUp}
                                 />
-                            <div className='right'></div>
+                            <div className='right' style={positions.right}></div>
                         </div>
-                        <div className='bottom'></div>
+                        <div className='bottom' style={positions.bottom}></div>
                     </div>
                     {/* {this.props.image && <img src={this.props.image.url} alt=''></img>} */}
-                    {this.props.base.top && <img src={this.props.base.top.url} alt=''></img>}
+                    {this.props.base.top && <img src={this.props.base.top.url} alt='' ></img>}
                     {this.props.base.right && <img src={this.props.base.right.url} alt=''></img>}
                     {this.props.base.left && <img src={this.props.base.left.url} alt=''></img>}
                     {this.props.base.bottom && <img src={this.props.base.bottom.url} alt=''></img>}

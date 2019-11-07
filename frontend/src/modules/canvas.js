@@ -29,13 +29,13 @@ export default function reducer(state = _nullState, action) {
                 base: action.base
             };
         case RECEIVE_IMAGES:
-            action.images.reduce((images, image) => images[image.id] = image);
+            action.images.reduce((images, image) => images[image._id] = image, images);
             return {
                 ...state,
                 images
             };
         case RECEIVE_USER_IMAGES:
-            action.images.reduce((user, image) => user[image.id] = image);
+            action.images.reduce((user, image) => user[image._id] = image, images);
             return {
                 ...state,
                 user
@@ -59,7 +59,7 @@ export const receiveBase = base => ({
 });
 
 export const receiveImages = images => ({
-    type: RECEIVE_IMAGE,
+    type: RECEIVE_IMAGES,
     images
 });
 
@@ -87,5 +87,10 @@ export const getBase = () => async dispatch => {
 export const seedImage = image => async dispatch => {
     const response = await axios.post(`api/images/seed`, image);
     return dispatch(receiveImage(response.data.image));
+};
+
+export const getCorpse = () => async dispatch => {
+    const response = await axios.get(`/api/images/corpse`);
+    return dispatch(receiveImages(response.data.images));
 };
 

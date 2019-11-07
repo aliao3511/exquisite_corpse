@@ -29,7 +29,8 @@ div.canvas {
     .top, .bottom {
         width: 700px;
         height: 50px;
-        background-color: blue;
+        // background-color: blue;
+        object-fit: cover;
     }
 
 }
@@ -42,7 +43,8 @@ div.side {
     div {
         width: 100px;
         height: 100%;
-        background-color: blue;
+        // background-color: blue;
+        object-fit: cover;
     }
 
     canvas {

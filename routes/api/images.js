@@ -32,7 +32,6 @@ router.post('/seed', upload.single('image'), async (req, res) => {
 // GET /draw - get borders for given canvas
 router.get('/draw', async (req, res) => {
     const images = await Image.find({ filled: false });
-    debugger
     const base = images[Math.floor(Math.random() * images.length)];
     res.json({
         base,
@@ -64,6 +63,21 @@ router.post('/save', upload.single('image'), (req, res) => {
                 image
             });
         });
+    });
+});
+
+// GET /corpse - get all images
+router.get('/corpse', async (req, res) => {
+    const images = await Image.find({ filled: true });
+    images.sort((a, b) => {
+        const zoneA = a.zone;
+        const zoneB = b.zone;
+        return zoneA[0] < zoneB[0] ? -1 : // a comes before b if row # is smaller
+                (zoneA[0] > zoneB[0] ? 1 : // a comes after b if row # is larger
+                (zoneA[1] < zoneB[1] ? -1 : 1)); // if row #s are equal, a comes before b if col # is smaller
+    });
+    res.json({
+        images
     });
 });
 
