@@ -1,56 +1,61 @@
-div.canvas-container {
-
-    // position: relative;
-    // width: 700px;
-    // height: 600px;
-
-    // canvas.drawing {
-    //     border: 2px solid #d3d3d3;
-    //     box-sizing: border-box;
-    //     width: 600px;
-    //     height: 500px;
-    //     position: absolute;
-    //     top: 50px;
-    //     left: 50px;
-    // }
-
-    // canvas.frame {
-        // position: absolute;
-    // }
-
+div.canvas {
+    
+    width: 700px;
+    height: 600px;
+    
+    canvas {
+        box-sizing: border-box;
+        border: 0.05px solid #d3d3d3;
+        width: 600px;
+        height: 500px;
+    }
+    
 }
 
 // borders
-div.canvas {
-
-    width: 700px;
-    height: 600px;
-
-    .top, .bottom {
-        width: 700px;
-        height: 50px;
-        // background-color: blue;
-        object-fit: cover;
-    }
-
-}
-
-div.side {
+div.side { // side borders
 
     display: flex;
     height: 500px;
 
     div {
-        width: 100px;
-        height: 100%;
-        // background-color: blue;
+        width: 50px;
+        height: 500px;
+    }
+
+    img {
+        width: 50px;
+        height: 500px;
         object-fit: cover;
+        object-position: right bottom;
     }
 
-    canvas {
-        width: 700px;
-        height: 100%;
-        border: 0.1px solid black;
-    }
+}
 
+div.top { // top border
+    display: flex;
+    justify-content: center;
+    width: 700px;
+    height: 50px;
+
+    img {
+        width: 600px;
+        height: 50px;
+        object-fit: cover;
+        object-position: center bottom;
+    }
+}
+
+div.bottom { // bottom border
+    display: flex;
+    justify-content: center;
+    width: 700px;
+    height: 50px;
+
+    img {
+        width: 600px;
+        height: 50px;
+        object-fit: cover;
+        object-position: center top;
+    }    
 }

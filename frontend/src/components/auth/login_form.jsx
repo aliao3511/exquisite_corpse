@@ -80,7 +80,7 @@ class LoginForm extends React.Component {
                         />
                     </div>                                     
                     <input type="submit" value="submit"/>
-                    <button onClick={this.toggleForm}>Or sign up</button>
+                    <button onClick={this.toggleForm}>or sign up</button>
                     {this.renderErrors()}
                 </form>
             </div>

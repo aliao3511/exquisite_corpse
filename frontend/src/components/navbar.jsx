@@ -25,14 +25,14 @@ class NavBar extends React.Component {
         if (loggedIn) {
             return (
                 <div>
-                    <button onClick={logout}>Log Out</button>
+                    <button onClick={logout}>log out</button>
                 </div>
             );
         } else {
             return (
                 <div>
-                    <button onClick={() => openModal('signup')}>Sign Up</button>
-                    <button onClick={() => openModal('login')}>Log In</button>
+                    <button onClick={() => openModal('signup')}>sign up</button>
+                    <button onClick={() => openModal('login')}>log in</button>
                 </div>
             );
         }

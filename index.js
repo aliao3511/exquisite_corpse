@@ -15,7 +15,7 @@ const images = require('./routes/api/images');
 //
 
 mongoose
-    .connect(db, { userNewUrlParser: true, useFindAndModify: false })
+    .connect(db, { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true })
     .then(() => console.log('connected to mongoDB'))
     .catch(err => console.log(err));
 

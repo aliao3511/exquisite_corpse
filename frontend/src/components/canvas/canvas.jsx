@@ -125,21 +125,36 @@ class Canvas extends React.Component {
     render() {
         if (!this.props.base) return null;
 
-        const positions = { top: null, right: null, left: null, bottom: null };
-        Object.keys(positions).forEach(pos => {
-            if (this.props.base[pos]) {
-                positions[pos] = {
-                    backgroundImage: this.props.base[pos].url,
-                    border: 'solid'
-                };
-            }
-        });
+        // const positions = { top: null, right: null, left: null, bottom: null };
+        // Object.keys(positions).forEach(pos => {
+        //     if (this.props.base[pos]) {
+        //         positions[pos] = {
+        //             backgroundImage: this.props.base[pos].url,
+        //             border: 'solid'
+        //         };
+        //     }
+        // });
 
         return (
             <>
                 <div className='canvas-container'>
                     <div className='canvas'>
-                        <div className='top' style={positions.top}></div>
+                        <div className='top'>
+                            {this.props.base.top && <img src={this.props.base.top.url} />}
+                        </div>
+                        <div className='side'>
+                            {this.props.base.left ? <img className='left' src={this.props.base.left.url} /> : <div className='left'></div>}
+                            <canvas ref={this.canvas}
+                                onMouseDown={this.handleMouseDown} 
+                                onMouseMove={this.handleMouseMove} 
+                                onMouseUp={this.handleMouseUp}
+                                />
+                            {this.props.base.right ? <img className='right' src={this.props.base.right.url} /> : <div className='right'></div>}
+                        </div>
+                        <div className='bottom'>
+                            {this.props.base.bottom && <img src={this.props.base.bottom.url} />}
+                        </div>
+                        {/* <div className='top' style={positions.top}></div>
                         <div className='side'>
                             <div className='left' style={positions.left}></div>
                             <canvas ref={this.canvas}
@@ -149,7 +164,7 @@ class Canvas extends React.Component {
                                 />
                             <div className='right' style={positions.right}></div>
                         </div>
-                        <div className='bottom' style={positions.bottom}></div>
+                        <div className='bottom' style={positions.bottom}></div> */}
                     </div>
                     {/* {this.props.image && <img src={this.props.image.url} alt=''></img>} */}
                     {this.props.base.top && <img src={this.props.base.top.url} alt='' ></img>}
