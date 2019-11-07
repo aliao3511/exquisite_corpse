@@ -4,6 +4,7 @@ import { Switch, Route } from 'react-router-dom';
 // import './App.css';
 
 // import { AuthRoute, ProtectedRoute } from './components/auth/route_util';
+import './App.css';
 import Home from './components/home/home';
 import Canvas from './components/canvas/canvas';
 import Modal from './components/modal/modal';
