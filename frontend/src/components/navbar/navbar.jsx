@@ -1,8 +1,9 @@
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { logout } from '../modules/auth';
-import { openModal } from '../modules/ui/modal';
+import { logout } from '../../modules/auth';
+import { openModal } from '../../modules/ui/modal';
+import './navbar.scss';
 
 const msp = state => ({
     loggedIn: state.auth.authenticated,
@@ -24,23 +25,21 @@ class NavBar extends React.Component {
         const { openModal, loggedIn, logout } = this.props;
         if (loggedIn) {
             return (
-                <div>
-                    <button onClick={logout}>log out</button>
-                </div>
+                <button onClick={logout}>log out</button>
             );
         } else {
             return (
-                <div>
+                <>
                     <button onClick={() => openModal('signup')}>sign up</button>
                     <button onClick={() => openModal('login')}>log in</button>
-                </div>
+                </>
             );
         }
     }
 
     render() {
         return (
-            <div>
+            <div className='navbar'>
                 {this.links()}
             </div>
         );

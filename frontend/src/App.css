@@ -1,3 +1,4 @@
+/* reset styling */
 html, body, header, nav, h1, a,
 ul, li, strong, main, button, i,
 section, img, div, h2, p, form,
@@ -38,8 +39,14 @@ button {
 button,
 input[type="submit"] {
   cursor: pointer;
+  font-size: 20px;
 }
 
 html {
   font-family: 'Patrick Hand', cursive;
+}
+
+/* shared styling */
+button {
+  background-color: transparent;
 }

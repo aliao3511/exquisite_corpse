@@ -20,6 +20,7 @@ router.post('/seed', upload.single('image'), async (req, res) => {
     newImage.contentType = req.file.mimetype;
     newImage.filled = true;
     newImage.zone = [0,0];
+    debugger
     newImage.url = 'https://s3.amazonaws.com/exquisite.corpse.dev/0.0.png';
     newImage.save((err, image) => {
         res.contentType = image.contentType;

@@ -104,10 +104,11 @@ class Seed extends React.Component {
     }
 
     seed() {
-        this.canvas.current.toBlob(imageBlob => {
+        this.canvas.current.toBlob(async imageBlob => {
             const imageData = new FormData();
             imageData.append('image', imageBlob);
-            this.props.seedImage(imageData);
+            await this.props.seedImage(imageData);
+            this.props.history.push('/');
         });
     }
 

@@ -56,13 +56,15 @@ ImageSchema.pre('save', async function(next) {
 
         if (adjacentSquares[pos]) {
             const query = { zone: adjacentSquares[pos] };
-            const update = { $set: {
+            const update = { $setOnInsert: {
                 zone: adjacentSquares[pos],
                 filled: false,
                 ...positions
                 }
             };
             const options = { upsert: true, new: true };
+            const check = await Image.findOne(query);
+            debugger
             const square = await Image.findOneAndUpdate(query, update, options).catch(e => console.log(e));
             document[pos] = { id: square.id, url: null };
         } else {

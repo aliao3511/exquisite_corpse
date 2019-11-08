@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import io from 'socket.io-client';
 
-import NavBar from '../navbar';
+import NavBar from '../navbar/navbar';
 import { getCorpse } from '../../modules/canvas';
 import './home.scss';
 
@@ -35,13 +35,13 @@ class Home extends React.Component {
             let image = this.props.images[i];
             if (image.zone[0] === rowCounter) {
                 debugger
-                row.push(<img className={`zone ${image.zone.join(',')}`} src={image.url}></img>);
+                row.push(<img key={image._id} className={`zone ${image.zone.join(',')}`} src={image.url} alt=''></img>);
                 debugger
             } else {
                 debugger
                 rowCounter++;
                 rows.push(row);
-                row = [<img className={`zone ${image.zone.join(',')}`} src={image.url}></img>];
+                row = [<img key={image._id} className={`zone ${image.zone.join(',')}`} src={image.url} alt=''></img>];
             }
         }
         rows.push(row);
@@ -51,10 +51,10 @@ class Home extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className='corpse-container'>
                 <NavBar />
                 <div className='corpse'>
-                    {this.makeCorpse().map((row, idx) => <div className={`row`} key={idx}>{row}</div>)}
+                    {this.makeCorpse().map((row, idx) => <div key={idx} className={`row-${idx}`}>{row}</div>)}
                 </div>
                 {/* <button onClick={() => {
                     socket.emit('test', 'heyo!!!');

@@ -106,11 +106,12 @@ class Canvas extends React.Component {
     }
 
     save() {
-        this.canvas.current.toBlob(imageBlob => {
+        this.canvas.current.toBlob(async imageBlob => {
             const imageData = new FormData();
             imageData.append('baseId', this.props.base._id);
             imageData.append('image', imageBlob);
-            this.props.saveImage(imageData);
+            await this.props.saveImage(imageData);
+            this.props.history.push('/');
         });
     }
 
@@ -134,7 +135,11 @@ class Canvas extends React.Component {
 
     render() {
         return (
-            <>
+            <div className='canvas-component'>
+                <div className='canvas-buttons'>
+                    <button onClick={this.startErasing} disabled={this.state.erasing} className={this.state.erasing ? 'disabled' : ''}>erase</button>
+                    <button onClick={this.stopErasing} disabled={!this.state.erasing} className={!this.state.erasing ? 'disabled' : ''}>draw</button>
+                </div>
                 <div className='canvas-container'>
                     <div className='canvas'>
                         <div className='top'>
@@ -158,11 +163,11 @@ class Canvas extends React.Component {
                     {this.props.base.left && <img src={this.props.base.left.url} alt=''></img>}
                     {this.props.base.bottom && <img src={this.props.base.bottom.url} alt=''></img>} */}
                 </div>
-                <button onClick={this.startErasing} disabled={this.state.erasing}>erase</button>
-                <button onClick={this.stopErasing} disabled={!this.state.erasing}>draw</button>
-                <button onClick={this.save}>save me</button>
-                <button onClick={() => this.props.history.push('/')}>cancel</button>
-            </>
+                <div className='canvas-buttons'>
+                    <button onClick={this.save}>save me</button>
+                    <button onClick={() => this.props.history.push('/')}>cancel</button>
+                </div>
+            </div>
         )
     }
 

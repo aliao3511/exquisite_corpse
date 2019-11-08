@@ -13,14 +13,14 @@ import Modal from './components/modal/modal';
 import Seed from './components/canvas/seed';
 
 const App = () => (
-  <div>
+  <>
     <Modal />
     <Switch>
       <Route path='/draw' component={Canvas} />
       <Route path='/seed' component={Seed} />
       <Route exact path='/' component={Home} />
     </Switch>
-  </div>
+  </>
 );
 
 export default App;
