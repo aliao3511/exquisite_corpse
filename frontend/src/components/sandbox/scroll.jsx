@@ -33,6 +33,7 @@ function Scroll() {
         height: '100vh',
         backgroundColor: 'orange',
         overflow: 'hidden',
+        cursor: 'move',
     };
 
     return (<div ref={myRef} 

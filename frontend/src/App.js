@@ -19,9 +19,9 @@ const App = () => (
   <>
     <Modal />
     <Switch>
-      <Route path='/scroll' component={Scroll}/>
       <Route path='/draw' component={Canvas} />
       <Route path='/seed' component={Seed} />
+      <Route path='/scroll' component={Scroll}/>
       <Route exact path='/' component={Home} />
     </Switch>
   </>

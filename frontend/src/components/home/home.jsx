@@ -18,46 +18,41 @@ class Home extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            clicked: false,
-            x: 0,
-            y: 0,
-        };
 
+        // this.state = {
+        //     mouseDown: false,
+        //     x: 0,
+        //     y: 0
+        // };
+
+        this.scrollable = React.createRef();
         this.makeCorpse = this.makeCorpse.bind(this);
         // this.handleMouseDown = this.handleMouseDown.bind(this);
-        // this.handleMouseMove = this.handleMouseMove.bind(this);
         // this.handleMouseUp = this.handleMouseUp.bind(this);
+        // this.handleMouseMove = this.handleMouseMove.bind(this);
     }
 
     componentDidMount() {
         this.props.getCorpse();
-
-        // window.addEventListener('mousemove', this.handleMouseMove);
-        // window.addEventListener('mousedown', this.handleMouseDown);
-        // window.addEventListener('mouseup', this.handleMouseUp);
-    }
-
-    componentWillUnmount() {
-        // window.removeEventListener('mousemove', this.handleMouseMove);
-        // window.removeEventListener('mousedown', this.handleMouseDown);
-        // window.removeEventListener('mouseup', this.handleMouseUp);
     }
 
     // handleMouseDown(e) {
-    //     console.log(e.pageX);
-    //     console.log(e.pageY);
-    //     this.setState({ clicked: true, x: e.pageX, y: e.pageY });
-    // }
-
-    // handleMouseMove(e) {
-    //     if (this.state.clicked) {
-    //         this.setState({ x: e.pageX, y: e.pageY }, () => window.scrollTo(this.state.x, this.state.y));
-    //     }
+    //     this.setState({
+    //         mousedown: true,
+    //         x: e.clientX,
+    //         y: e.clientY
+    //     });        
     // }
 
     // handleMouseUp(e) {
-    //     this.setState({ clicked: false, x:e.pageX, y: e.pageY });
+    //     this.setState({ mousedown: false });
+    // }
+
+    // handleMouseMove(e) {
+    //     if (!this.state.mousedown) return;
+    //     const { current } = this.scrollable;
+    //     current.scrollLeft = current.scrollLeft + (this.state.x - e.clientX);
+    //     current.scrollTop = current.scrollTop + (this.state.y - e.clientY);
     // }
 
     makeCorpse() {
@@ -80,7 +75,12 @@ class Home extends React.Component {
 
     render() {
         return (
-            <div className='corpse-container'>
+            <div className='corpse-container' 
+                // ref={this.scrollable}
+                // onMouseDown={this.handleMouseDown}
+                // onMouseUp={this.handleMouseUp}
+                // onMouseMove={this.handleMouseMove}
+            >
                 <NavBar />
                 <div className='corpse'>
                     {this.makeCorpse().map((row, idx) => <div key={idx} className={`row-${idx}`}>{row}</div>)}
