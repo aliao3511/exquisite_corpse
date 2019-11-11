@@ -11,13 +11,15 @@
 
 div.corpse-container {
 
+    height: 100%;
+
     a {
         font-size: 36px;
         text-transform: uppercase;
         color: red;
-        position: sticky;
-        left: 118vh;
-        bottom: 3px;
+        position: fixed;
+        right: 8px;
+        bottom: 0;
     }
 
 }

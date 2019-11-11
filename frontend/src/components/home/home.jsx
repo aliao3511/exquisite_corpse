@@ -18,13 +18,47 @@ class Home extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            clicked: false,
+            x: 0,
+            y: 0,
+        };
 
         this.makeCorpse = this.makeCorpse.bind(this);
+        // this.handleMouseDown = this.handleMouseDown.bind(this);
+        // this.handleMouseMove = this.handleMouseMove.bind(this);
+        // this.handleMouseUp = this.handleMouseUp.bind(this);
     }
 
     componentDidMount() {
         this.props.getCorpse();
+
+        // window.addEventListener('mousemove', this.handleMouseMove);
+        // window.addEventListener('mousedown', this.handleMouseDown);
+        // window.addEventListener('mouseup', this.handleMouseUp);
     }
+
+    componentWillUnmount() {
+        // window.removeEventListener('mousemove', this.handleMouseMove);
+        // window.removeEventListener('mousedown', this.handleMouseDown);
+        // window.removeEventListener('mouseup', this.handleMouseUp);
+    }
+
+    // handleMouseDown(e) {
+    //     console.log(e.pageX);
+    //     console.log(e.pageY);
+    //     this.setState({ clicked: true, x: e.pageX, y: e.pageY });
+    // }
+
+    // handleMouseMove(e) {
+    //     if (this.state.clicked) {
+    //         this.setState({ x: e.pageX, y: e.pageY }, () => window.scrollTo(this.state.x, this.state.y));
+    //     }
+    // }
+
+    // handleMouseUp(e) {
+    //     this.setState({ clicked: false, x:e.pageX, y: e.pageY });
+    // }
 
     makeCorpse() {
         const rows = [];
