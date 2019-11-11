@@ -20,8 +20,12 @@ function Scroll() {
 
     const handleMouseMove = e => {
         if (!myRef.current.mousedown) return;
-        myRef.current.scrollLeft = myRef.current.scrollLeft + (e.clientX - myRef.current.x);
-        myRef.current.scrollTop = myRef.current.scrollTop + (e.clientY - myRef.current.y);
+        console.log(`old left: ${myRef.current.scrollLeft}`);
+        console.log(`old top: ${myRef.current.scrollTop}`);
+        myRef.current.scrollLeft = myRef.current.scrollLeft + (myRef.current.x - e.clientX);
+        myRef.current.scrollTop = myRef.current.scrollTop + (myRef.current.y - e.clientY);
+        console.log(`new left: ${myRef.current.scrollLeft}`);
+        console.log(`new top: ${myRef.current.scrollTop}`);
     };
 
     const style = {
