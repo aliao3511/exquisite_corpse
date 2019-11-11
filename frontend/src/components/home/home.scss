@@ -15,9 +15,9 @@ div.corpse-container {
         font-size: 36px;
         text-transform: uppercase;
         color: red;
-        position: fixed;
-        right: 10px;
-        bottom: -2px;
+        position: sticky;
+        left: 118vh;
+        bottom: 3px;
     }
 
 }

@@ -4,6 +4,7 @@ const fs = require('fs');
 const multer = require('multer');
 const upload = multer();
 const AWS = require('aws-sdk');
+const mongoose = require('mongoose');
 
 const Image = require('../../models/Image');
 const { ID, SECRET, BUCKET_NAME } = require('../../config/aws');
@@ -14,13 +15,11 @@ const s3 = new AWS.S3({
 });
 
 // POST /seed - seed image
-router.post('/seed', upload.single('image'), async (req, res) => {
-    const data = req.file;
+router.post('/seed', async (req, res) => {
     const newImage = new Image();
-    newImage.contentType = req.file.mimetype;
+    newImage.contentType = 'image/png';
     newImage.filled = true;
     newImage.zone = [0,0];
-    debugger
     newImage.url = 'https://s3.amazonaws.com/exquisite.corpse.dev/0.0.png';
     newImage.save((err, image) => {
         res.contentType = image.contentType;
@@ -56,14 +55,48 @@ router.post('/save', upload.single('image'), async (req, res) => {
         if (err) throw err;
         console.log('uploaded to AWS!');
         newImage.url = data.Location;
+
+        // update url in any adjacent images
+        // const positions = ['top', 'right', 'left', 'bottom'];
+        const id = new mongoose.Types.ObjectId(baseId);
+        const top = await Image.findOneAndUpdate({ 'top.id': id }, { $set: { 'top.url': data.Location } }, { new: true });
+        const right = await Image.findOneAndUpdate({ 'right.id': id }, { $set: { 'right.url': data.Location } }, { new: true });
+        const left = await Image.findOneAndUpdate({ 'left.id': id }, { $set: { 'left.url': data.Location } }, { new: true });
+        const bottom = await Image.findOneAndUpdate({ 'bottom.id': id }, { $set: { 'bottom.url': data.Location } }, { new: true });
+        // const query = {
+        //     $or: [
+        //         { 'top.id': id },
+        //         { 'right.id': id },
+        //         { 'left.id': id },
+        //         { 'bottom.id': id }
+        //     ]
+        // };
+        // const images = await Image.find(query);
+
+        // for (let i = 0; i < images.length; i++) {
+        //     const image = images[i];
+        //     for (let j = 0; j < positions.length; j++) {
+        //         const pos = positions[j];
+        //         debugger
+        //         if (image[pos].id && image[pos].id.equals(id)) {
+        //             // debugger
+        //             image[pos].url = data.Location;
+        //             // debugger
+        //             const updated = await image.save();
+        //             debugger
+        //         }
+        //     }
+        // }
+
         newImage.filled = true;
-        debugger
         newImage.save((err, image) => {
             res.contentType = image.contentType;
             res.json({
                 image
             });
         });
+
+        // update adjacen
     });
 });
 
