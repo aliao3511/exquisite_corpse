@@ -16,7 +16,10 @@ const images = require('./routes/api/images');
 mongoose
     .connect(db, { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true })
     .then(() => console.log('connected to mongoDB'))
-    .catch(err => console.log(err));
+    .catch(err => {
+      console.log('error');
+      console.log(err);
+    });
 
 // MIDDLEWARE
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -26,10 +29,6 @@ app.use(passport.initialize());
 require('../config/passport')(passport);
 //
 
-// ROUTES
-app.use('/api/users', users);
-app.use('/api/images', images);
-
 // DEPLOY
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));
@@ -37,6 +36,10 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
   });
 }
+
+// ROUTES
+app.use('/api/users', users);
+app.use('/api/images', images);
 
 // const port = process.env.PORT || 5000;
 // const server = app.listen(port, () => console.log(`server running on port ${port}`));
