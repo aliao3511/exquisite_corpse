@@ -7,10 +7,12 @@
     "start": "node index.js",
     "server": "nodemon index.js",
     "server:debug": "nodemon --inspect index.js",
-    "frontend-install": "npm install --prefix frontend",
-    "frontend": "npm start --prefix frontend",
+    "frontend-install": "npm install --prefix client",
+    "frontend-install-prod": "npm install --silent --prefix client",
+    "frontend": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run frontend\"",
-    "dev:debug": "concurrently \"npm run server:debug \" \"npm run frontend\""
+    "dev:debug": "concurrently \"npm run server:debug \" \"npm run frontend\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "author": "aliao3511",
   "license": "ISC",
