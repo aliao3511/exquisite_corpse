@@ -57,11 +57,12 @@ router.post('/login', async (req, res) => {
     }
 
     const { identifier, password } = req.body;
-
+    console.log('hi2');
     const user = await User.findOne({ $or: [
         { email: identifier },
         { username: identifier }
     ] });    
+    console.log('hi3');
     if (!user) {
         return res.status(404).json({ email: 'user does not exist'});
     }
