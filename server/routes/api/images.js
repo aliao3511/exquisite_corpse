@@ -102,7 +102,9 @@ router.post('/save', upload.single('image'), async (req, res) => {
 
 // GET /corpse - get all images
 router.get('/corpse', async (req, res) => {
+    console.log('first corpse!');
     const images = await Image.find({ filled: true });
+    console.log('get corpse!')
     images.sort((a, b) => {
         const zoneA = a.zone;
         const zoneB = b.zone;
