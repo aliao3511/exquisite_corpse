@@ -1,4 +1,4 @@
-./node_modules
+/node_modules
 /config/keys_dev.js
 /client/node_modules
 /config/aws_dev.js
