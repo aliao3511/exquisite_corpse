@@ -16,17 +16,34 @@ const s3 = new AWS.S3({
 
 // POST /seed - seed image
 router.post('/seed', async (req, res) => {
-    const newImage = new Image();
-    newImage.contentType = 'image/png';
-    newImage.filled = true;
-    newImage.zone = [0,0];
-    newImage.url = 'https://s3.amazonaws.com/exquisite.corpse.dev/0.0.png';
-    newImage.save((err, image) => {
+    const imageOne = new Image();
+    imageOne.contentType = 'image/png';
+    imageOne.filled = true;
+    imageOne.zone = [0,0];
+    imageOne.url = 'https://s3.amazonaws.com/exquisite.corpse.dev/0.0.png';
+    
+    const imageTwo = new Image();
+    imageTwo.contentType = 'image/png';
+    imageTwo.filled = true;
+    imageTwo.zone = [0,0];
+    imageTwo.url = 'https://s3.amazonaws.com/exquisite.corpse.dev/0.1.png';
+ 
+    const [savedImageOne, savedImageTwo] = await Promise.all([
+                                                               imageOne.save(), 
+                                                               imageTwo.save()
+                                                             ]);
+
+    res.json({
+      imageOne: savedImageOne,
+      imageTwo: savedImageTwo
+    });
+  
+    /* imageOne.save((err, image) => {
         res.contentType = image.contentType;
         res.json({
             image
         });
-    });
+    }); */
 });
 
 // GET /draw - get borders for given canvas
@@ -102,9 +119,7 @@ router.post('/save', upload.single('image'), async (req, res) => {
 
 // GET /corpse - get all images
 router.get('/corpse', async (req, res) => {
-    console.log('first corpse!');
     const images = await Image.find({ filled: true });
-    console.log('get corpse!')
     images.sort((a, b) => {
         const zoneA = a.zone;
         const zoneB = b.zone;

@@ -10,7 +10,6 @@ const { validateRegisterInput, validateLoginInput } = require('../../validation/
 
 // POST /register - register user
 router.post('/register', async (req, res) => {
-    console.log('hello');
     const { errors, isValid } = validateRegisterInput(req.body);
     if (!isValid) {
         return res.status(400).json(errors);
@@ -50,14 +49,12 @@ router.post('/register', async (req, res) => {
 
 // POST /login - log in user
 router.post('/login', async (req, res) => {
-    console.log('hi');
     const { errors, isValid } = validateLoginInput(req.body);
     if (!isValid) {
         return res.status(400).json(errors);
     }
 
     const { identifier, password } = req.body;
-    console.log('hi2');
     const user = await User.findOne({ $or: [
         { email: identifier },
         { username: identifier }

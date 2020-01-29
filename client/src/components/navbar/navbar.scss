@@ -1,8 +1,17 @@
 div.navbar {
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-start;
+    padding-left: 10px;
     position: fixed;
     left: 6px;
     top: 2px;
-    width: 125px;
+    width: 145px;
+}
+
+div.navbar {
+  
+  button {
+    margin-right: 15px;
+  }
+
 }
