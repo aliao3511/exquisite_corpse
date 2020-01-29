@@ -81,7 +81,7 @@ class Home extends React.Component {
                 // onMouseUp={this.handleMouseUp}
                 // onMouseMove={this.handleMouseMove}
             >
-                <NavBar />
+                {/*<NavBar />*/}
                 <div className='corpse'>
                     {this.makeCorpse().map((row, idx) => <div key={idx} className={`row-${idx}`}>{row}</div>)}
                 </div>
@@ -90,7 +90,7 @@ class Home extends React.Component {
                 }}>heyo</button> */}
                 <div className='draw-links'>
                     <Link to='/draw'>draw</Link>
-                    <Link to='/draw/:room'>get a room</Link>
+                    {/* <Link to='/draw/:room'>get a room</Link> */}
                 </div>
             </div>
         )

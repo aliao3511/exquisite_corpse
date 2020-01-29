@@ -21,14 +21,14 @@ div.corpse-container {
 div.draw-links {
 
     position: fixed;
-    right: 8px;
+    right: 20px;
     bottom: 0;
     display: flex;
     justify-content: space-between;
-    width: 250px;
+    // width: 250px;
 
     a {
-        font-size: 36px;
+        font-size: 60px;
         text-transform: uppercase;
         color: red;
     }

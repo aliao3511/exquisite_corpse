@@ -4,8 +4,13 @@ div.canvas-component {
     height: 100vh;
     width: 100vw;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
+}
+
+// canvas container
+div.canvas-container {
+  margin: 20px;
 }
 
 // canvas

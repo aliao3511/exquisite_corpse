@@ -16,17 +16,20 @@ const ModalText = () => {
         </div> 
     ) : (
             <div className='modal-text-container'>
-                <p>There's only one rule: Connect your drawing to the lines on the side</p>
-                <p>You can contribute either anonymously or under a name.</p>
-                <p>If you'd like to be credited for your contributions, create an account or sign in below!</p>
+                <p>There's only one rule:</p>
+                <ul className='rules'>
+                  <li>connect your drawing to the lines on the side</li>
+                </ul>
+                {/*<p>You can contribute either anonymously or under a name.</p>
+                <p>If you'd like to be credited for your contributions, create an account or sign in below!</p>*/}
                 <div className='modal-text-buttons'>
                   <div className='auth-links'>
-                    <button onClick={() => dispatch(openModal('login'))}>
+                    {/*<button onClick={() => dispatch(openModal('login'))}>
                       log in
                     </button>
                     <button onClick={() => dispatch(openModal('signup'))}>
                       sign up
-                    </button>
+                    </button>*/}
                   </div>
                   <button onClick={() => dispatch(closeModal())} >get started</button>
                 </div>
